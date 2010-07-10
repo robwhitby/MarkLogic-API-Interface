@@ -1,0 +1,221 @@
+body.x-border-layout-ct  {
+	background-image: url(../images/background.jpg);
+	background-repeat: repeat;
+}
+
+/* loading */
+#loading-mask {
+	/*-moz-opacity: 0.5;
+  opacity: .50;
+  filter: alpha(opacity=50);*/
+  background-color: #3C4E7E;
+	background-image: url(../images/background.jpg);
+	background-repeat: repeat;
+	height:100%;
+	left:0pt;
+	position:absolute;
+	top:0pt;
+	width:100%;
+	z-index:20000;
+}
+
+#loading {
+	background:white none repeat scroll 0%;
+	height:auto;
+	left:45%;
+	padding:0px;
+	position:absolute;
+	top:40%;
+	z-index:20001;
+}
+
+#loading .loading-indicator {
+	background:white none repeat scroll 0%;
+	font: georgia;
+	font-size: 13px;
+	padding:10px;
+}
+
+/*layout*/
+.x-border-layout-ct { background-color: transparent; }
+.x-panel-body { border-color: #fff; }
+
+/*fonts*/
+* {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 18px;
+}
+
+strong { font-weight: bold; }
+
+/*header*/
+#header  h1{
+	margin: 10px 0px 5px 10px;
+	font-size: 25px;
+	letter-spacing: 1px;
+	color: #fff;
+	font-weight: normal;
+	font-family: georgia;
+}
+
+#links {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+#links li {
+	display: inline;
+	margin-left: 15px;
+}
+
+#links li a:link, #links li a:visited { 
+	color: #fff;
+	text-decoration: none;
+	padding : 2px;
+}
+#links li a:hover { 
+	/*border-bottom: 1px solid #fff; */
+	background-color: #efefef;
+	color: #000;
+}
+
+/*search*/
+#search { 
+	padding: 7px; 
+	background-color:#fff; 
+}
+
+#search .x-panel-body { border: 0; }
+
+
+/*nav*/
+
+#nav .x-panel-body {
+	border-width: 1px 0px 0px 0px;
+}
+
+#nav { border-top: 1px solid #ccc; }
+
+.x-tree-node-el { 
+	padding: 1px; 
+	margin: 0px 10px 0px 5px;
+}
+
+.x-tree-node-indent, .x-tree-ec-icon { display: none; }
+
+.root-node .x-tree-ec-icon { display: none; }
+.root-node .x-tree-node-icon {
+	background-image:url(../images/asterisk_orange.png);
+}
+
+.x-tree-node .x-tree-selected {
+	background-color: #FFFABF;
+}
+
+.x-tree-node .x-tree-node-over {
+	background-color: #efefef;
+}
+
+
+/*no results*/
+p#emptyText {
+	margin: 5px;
+}
+
+
+/*functions*/
+div.function {
+	margin: 5px 5px 0px 5px;
+	padding: 5px;
+	border: 1px solid #ccc;
+}
+
+div.fn-expanded { display: none; }
+
+
+div.function-hover {
+	background-color: #efefef;
+	cursor: pointer;
+}
+
+.function h1 a:link,
+.function h1 a:visited{
+	font-size: 13px;
+	color: #009;
+	text-decoration: none;
+	padding: 2px 2px 2px 17px;
+}
+
+.function h1 a:hover,
+.function h1 a:active{
+	background-color: #efefef;
+}
+
+.icon-collapse,
+.icon-expand {
+	background-position: -3px 0px;
+	background-repeat: no-repeat;
+	background-image: url(../ext-2.2/resources/images/default/tree/elbow-plus-nl.gif);
+}
+ 
+.icon-collapse {
+	background-image: url(../ext-2.2/resources/images/default/tree/elbow-minus-nl.gif);
+}
+
+.function h1 span { font-weight: normal; }
+
+.function h2 {
+	font-weight: normal;
+	margin-top: 4px;
+}
+
+.function li {
+	margin-left: 30px;
+}
+
+h1.returns {
+	padding-left: 17px;
+}
+
+p.error { color: red; }
+
+p.summary { margin: 5px 0 0 5px; }
+
+.section {
+	background-color: #efefef;
+	margin: 5px;
+	padding: 5px;
+}
+
+.section h2 {
+	font-weight: bold;
+	font-size: 13px;
+}
+
+code, .section pre {
+	font-family: 'courier new', courier;
+	
+}
+
+.section table tr td {
+	border-top: 1px dotted #ccc;
+	vertical-align: top;
+}
+
+.section blockquote {
+	margin-left: 20px;
+}
+
+.section p {
+	margin-bottom: 10px;
+}
+
+.section dt  { font-weight: bold; }
+.section dt p { margin: 5px 0px 0px 0px; }
+
+
+span.hi {
+	background-color: #ffb;
+}

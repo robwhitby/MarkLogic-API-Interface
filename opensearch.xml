@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>MarkLogic API</ShortName>
+  <LongName>MarkLogic API Search</LongName>
+  <Description>Search the MarkLogic XQuery API</Description>
+  <Url type="text/html"
+       method="get"
+       template="http://api.xqueryhacker.com/4.1/#{searchTerms}"/>
+  <Image height="16" width="16" type="image/vnd.microsoft.icon">http://api.xqueryhacker.com/favicon.ico</Image>
+  <SyndicationRight>limited</SyndicationRight>
+  <Language>en-GB</Language>
+  <Language>en-US</Language>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <InputEncoding>UTF-8</InputEncoding>
+</OpenSearchDescription>

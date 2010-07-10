@@ -1,0 +1,70 @@
+﻿MarkLogic API Reference Installation Instructions
+
+
+1. Unzip the MLAPI folder onto your markLogic server where it can be accessed by an HTTP app server.
+
+
+**********************************************************************
+
+2. Create a new forest and database in MarkLogic Server
+	
+	stemmed searches: advanced
+	
+	enable all indexes (db is very small so I haven't looked into which are actually needed..)
+	
+	Fragment root: 
+		namespace uri = http://marklogic.com/xdmp/apidoc
+		localname = function
+		
+	
+**********************************************************************
+
+3. Add namespace to Groups > Default > Namespaces
+	prefix: apidoc
+	uri: http://marklogic.com/xdmp/apidoc
+
+
+**********************************************************************
+
+4. Create an HTTP app server	
+	root: path to folder containing this file 
+	modules: file system
+	database: the db you created in step 1
+
+ 
+**********************************************************************
+
+5. Point your browser at your new app server:
+	http://{your server}:{port}/xqy/import.xqy
+	
+	This will go get the API from MarkLogic's website and save it as XML in your db.
+
+
+**********************************************************************
+
+
+6. Edit opensearch.xml to point to your server not mine.
+
+
+**********************************************************************
+
+
+7. Optional - if you're worried about security, can set the forest to read-only.
+
+
+
+
+
+Any questions/feedback please let me know!
+
+
+Thanks
+Rob Whitby
+
+robwhitby78@yahoo.co.uk
+http://www.xqueryhacker.com
+http://twitter.com/xqueryhacker
+
+
+
+	

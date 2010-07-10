@@ -1,0 +1,1 @@
+xdmp:redirect-response('/4.1/')
