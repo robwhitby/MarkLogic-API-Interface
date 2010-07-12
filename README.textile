@@ -1,0 +1,13 @@
+*MarkLogic API Interface*
+
+A search interface to the MarkLogic XQuery API function reference.
+
+* Instant search of Mark Logic API function reference
+* Browse by namespace
+* Compatible with opensearch
+* Switch beween multiple API versions
+* Supports MarkLogic Server 4.0 and 4.1
+
+"See Demo":http://api.xqueryhacker.com
+
+!http://github.com/robwhitby/MarkLogic-API-Interface/raw/master/screenshot.jpg!
