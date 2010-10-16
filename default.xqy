@@ -51,6 +51,7 @@ xdmp:set-response-content-type('text/html'),
 		<span id="api-versions">&#160;</span>
 		<div id="links">
 			<ul>
+				<li><a href="http://github.com/robwhitby/MarkLogic-API-Interface" title="GitHub Project">GitHub Project</a></li>
 				<li><a id="docsLink" href="http://developer.marklogic.com/pubs/VERSION/default.xqy" title="developer.marklogic.com/pubs">Docs</a></li>
 				<li><a href="http://developer.marklogic.com" title="developer.marklogic.com">Developer Network</a></li>
 				<li><a href="http://marklogic.markmail.org" title="marklogic.markmail.org">MarkMail</a></li>
