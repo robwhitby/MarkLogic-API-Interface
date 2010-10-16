@@ -30,7 +30,7 @@ return (
 				,
 				<p>Imported: {$file}</p>
 			),
-			<p>Import Finished. <a href="/{$version}/">View API</a></p>
+			<p>Import Finished. <a href="/?{$version}/">View API</a></p>
 		)
 	else if ($import = 'true') then
 		<p>Error importing: Version parameter required<br/><br/><a href="javascript:history.back()">Back</a></p>
@@ -39,10 +39,11 @@ return (
 		<h2>Mark Logic API</h2>
 		<p>
 			Download the API from MarkLogic (may take a couple of minutes).
-			<br/><br/>
-			<a href="/xqy/import.xqy?version=4.0&amp;import=true">API version 4.0</a>
-			<br/><br/>
-			<a href="/xqy/import.xqy?version=4.1&amp;import=true">API version 4.1</a>
+			<form method="get">
+				<input type="hidden" name="import" value="true"/>
+				API Version<br/><input type="text" name="version" value="4.2"/>
+				<input type="submit" value="Import"/>
+			</form>
 		</p>
 		</div>
 )

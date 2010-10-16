@@ -4,7 +4,7 @@ Ext.onReady(function() {
 	var config = { 
 		minQueryLength: 0,
 		queryDelay: 500,
-		apiVersion: document.location.pathname.replace(/\//g,'')
+		apiVersion: (document.location.search.length > 1)? document.location.search.substring(1) : MLAPI.versions[0]
 	};
 	
 	var search = new Ext.form.FormPanel({
@@ -209,11 +209,20 @@ Ext.onReady(function() {
 	//update version specific things
 	Ext.get('pageTitle').dom.innerHTML += config.apiVersion;
 	document.title += ' ' + config.apiVersion;
+	
+	if (MLAPI.versions.length > 1) {
+		var html = "";
+		for (var i=0; i<MLAPI.versions.length; i++) {
+			if (MLAPI.versions[i] != config.apiVersion) {
+				html += '<a href="/?' + MLAPI.versions[i] + '">' + MLAPI.versions[i] + '</a>';
+			}
+		}		
+		Ext.get('api-versions').update(html);
+	}
+	
 
 	var docsLink = Ext.get('docsLink').dom;
 	docsLink.href = docsLink.href.replace('VERSION', config.apiVersion);
-	
-	Ext.get('switchVersion' + config.apiVersion).setDisplayed(false);
 	
 	Ext.get('loading').remove();
 	Ext.get('loading-mask').fadeOut({remove:true});

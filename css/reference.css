@@ -75,11 +75,29 @@ strong { font-weight: bold; }
 	text-decoration: none;
 	padding : 2px;
 }
+
+#api-versions a:link,
+#api-versions a:visited,
+#api-versions a:hover,
+#api-versions a:active {
+	color: #ccc;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+#api-versions a:hover,
 #links li a:hover { 
 	/*border-bottom: 1px solid #fff; */
 	background-color: #efefef;
 	color: #000;
 }
+
+#api-versions {
+	position: absolute; 
+	top: 15px;
+	left: 250px;
+}
+
 
 /*search*/
 #search { 
@@ -219,3 +237,5 @@ code, .section pre {
 span.hi {
 	background-color: #ffb;
 }
+
+
