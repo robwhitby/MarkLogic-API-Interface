@@ -24,7 +24,9 @@ xdmp:set-response-content-type('text/html'),
 		<div id="loading-mask"></div>
 		<script type="text/javascript">
 			var MLAPI = {{ versions: [{fn:string-join($versions,',')}]}};
-			document.write('<div id="loading"><div class="loading-indicator"><img src="ext-2.2/resources/images/default/shared/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle" alt=""/>');
+			document.write('<div id="loading">');
+			document.write('<div class="loading-indicator">');
+			document.write('<img src="ext-2.2/resources/images/default/shared/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle" alt=""/>');
 			document.write('Loading...');
 			document.write('</div></div>');
 		</script>
