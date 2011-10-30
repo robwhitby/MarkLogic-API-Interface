@@ -62,18 +62,20 @@ xdmp:set-response-content-type('text/html'),
 		</div>
 	</div>
 	
-	<script type="text/javascript" src="/release/reference.js">{' '}</script>
-	
-	
+	<script type="text/javascript" src="/release/ext.js">{' '}</script>
+	<script type="text/javascript" src="/js/default.js">{' '}</script>
 	<script type="text/javascript">
-	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-10254865-2']);
+		_gaq.push(['_trackPageview']);
+		(function() {{
+	  		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  		var s = document.getElementsByTagName('script')[0]; 
+	  		s.parentNode.insertBefore(ga, s);
+		}})();
 	</script>
-	<script type="text/javascript">
-	try {{
-	var pageTracker = _gat._getTracker("UA-10254865-2");
-	pageTracker._trackPageview();
-	}} catch(err) {{}}</script>
+	
 </body>
 </html>
 )

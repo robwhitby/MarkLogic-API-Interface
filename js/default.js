@@ -60,6 +60,7 @@ Ext.onReady(function() {
 					function(value) {
 						content.store.load({params: {q : value, n : Ext.getCmp('namesOnly').checked}});
 						nav.getSelectionModel().clearSelections();
+						if (_gaq) _gaq.push(["_trackEvent", "search", query]);
 					},
 					this, 
 					[query]);
@@ -92,10 +93,12 @@ Ext.onReady(function() {
 			return newNode.isRoot || newNode.leaf;
 		},
 		'selectionchange' : function(sm, node){
-			if (node) { content.store.load({params: {ns : node.attributes.ns}}); }
+			if (node) {
+			    content.store.load({params: {ns : node.attributes.ns}});
+			     if (_gaq) _gaq.push(["_trackEvent", "browse", node.attributes.ns]);
 			}
 		}
-	);
+	});
 	
 	
 	
@@ -157,6 +160,7 @@ Ext.onReady(function() {
 						divs[1].addClass('loaded');
 						
 						captureLinks();
+						if (_gaq) _gaq.push(["_trackEvent", "detail", record.data.name]);
 					},
 					failure: function(r){
 						divs[1].update('<p class="error">Sorry, function detail unavailable.</p>');
