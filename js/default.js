@@ -84,7 +84,8 @@ Ext.onReady(function() {
 			dataUrl : '/xqy/navigation.xqy',
 			baseParams : { version: config.apiVersion },
 			baseAttrs : { leaf : true },
-			preloadChildren : true
+			preloadChildren : true,
+			requestMethod: 'GET'
 		})
 	});
 
@@ -114,7 +115,7 @@ Ext.onReady(function() {
 					url: '/xqy/functions.xqy',
 					extraParams : { version: config.apiVersion },
 					disableCaching : false,
-					method : 'POST'
+					method : 'GET'
 				})
 			), 
 			reader: new Ext.data.XmlReader(
@@ -153,6 +154,7 @@ Ext.onReady(function() {
 						q : Ext.getCmp('txtSearch').getValue(),
 						n : Ext.getCmp('namesOnly').checked
 					},
+					method : 'GET',
 					disableCaching: false,
 					success: function(r){
 						divs[1].update(r.responseText);
