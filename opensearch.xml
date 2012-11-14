@@ -5,7 +5,7 @@
   <Description>Search the MarkLogic XQuery API</Description>
   <Url type="text/html"
        method="get"
-       template="http://api.xqueryhacker.com/4.1/#{searchTerms}"/>
+       template="http://api.xqueryhacker.com/6/#{searchTerms}"/>
   <Image height="16" width="16" type="image/vnd.microsoft.icon">http://api.xqueryhacker.com/favicon.ico</Image>
   <SyndicationRight>limited</SyndicationRight>
   <Language>en-GB</Language>

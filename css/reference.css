@@ -73,8 +73,10 @@ strong { font-weight: bold; }
 #links li a:link, #links li a:visited { 
 	color: #fff;
 	text-decoration: none;
-	padding : 2px;
+	padding: 3px 5px;
 }
+
+#api-versions a { font-size: 15px; }
 
 #api-versions a:link,
 #api-versions a:visited,
@@ -82,7 +84,8 @@ strong { font-weight: bold; }
 #api-versions a:active {
 	color: #ccc;
 	text-decoration: none;
-	margin-right: 10px;
+	padding: 3px 5px;
+	margin-right: 5px;
 }
 
 #api-versions a:hover,
@@ -95,7 +98,7 @@ strong { font-weight: bold; }
 #api-versions {
 	position: absolute; 
 	top: 15px;
-	left: 250px;
+	left: 240px;
 }
 
 

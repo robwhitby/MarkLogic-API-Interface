@@ -1,51 +1,62 @@
-xquery version '1.0-ml';
+xquery version "1.0-ml";
+declare default function namespace "local";
 
-let $version := xdmp:get-request-field('version')
-let $base-uri := fn:concat('http://developer.marklogic.com:8040/', $version, 'doc/')
-let $import := xdmp:get-request-field('import')
+declare variable $version := xdmp:get-request-field("version", "6");
+declare variable $import := xdmp:get-request-field("import", "false") cast as xs:boolean;
 
-return (
-	xdmp:set-response-content-type('text/html'),
-	if ($version and $import = 'true') then
-		let $fns := xdmp:document-get(fn:concat($base-uri,'functionSummary.xqy'), 
-			<options xmlns="xdmp:document-get" xmlns:http="xdmp:http">
-				<format>xml</format>
-			</options>)
+declare variable $default-dir := fn:concat("/Users/rob/Downloads/MarkLogic_", $version, "_pubs/pubs/raw/apidoc");
+declare variable $dir := xdmp:get-request-field("dir", $default-dir);
 
-		let $files := distinct-values(
-			for $href in $fns//*:a/@href
-			where fn:starts-with($href,fn:concat('#display.xqy?fname=http://pubs/', $version, 'doc/apidoc/'))
-			return fn:substring-before(fn:substring-after($href, fn:concat('#display.xqy?fname=http://pubs/', $version, 'doc/apidoc/')),'&amp;')
-		)
-		
+
+declare function import() as element(ol)
+{
+  <ol>
+  {
+		for $path in xdmp:filesystem-directory($dir)//dir:pathname
+		let $file := fn:tokenize($path, "/")[fn:last()]
+		let $uri := fn:concat("/apidoc/", $version, "/", $file)
+		where fn:ends-with($file, ".xml")
 		return (
-			for $file in $files
-			return (
-				xdmp:document-load(fn:concat($base-uri, '/apidoc/', $file),
-					<options xmlns="xdmp:document-load">
-						<uri>{fn:concat('/', $version, '/', $file)}</uri>
-						<repair>none</repair>
-						<permissions>{xdmp:default-permissions()}</permissions>
-					</options>) 
-				,
-				<p>Imported: {$file}</p>
-			),
-			<p>Import Finished. <a href="/?{$version}/">View API</a></p>
+			xdmp:document-load($path, 
+				<options xmlns="xdmp:document-load">
+					<uri>{$uri}</uri>
+					<format>xml</format>
+					<collections>
+      			<collection>/apidoc/{$version}</collection>
+      		</collections>
+					<permissions>{xdmp:default-permissions()}</permissions>
+				</options>),
+			<li>imported: {$uri}</li>
 		)
-	else if ($import = 'true') then
-		<p>Error importing: Version parameter required<br/><br/><a href="javascript:history.back()">Back</a></p>
-	else 
-		<div>
-		<h2>Mark Logic API</h2>
-		<p>
-			Download the API from MarkLogic (may take a couple of minutes).
-			<form method="get">
-				<input type="hidden" name="import" value="true"/>
-				API Version<br/><input type="text" name="version" value="4.2"/>
-				<input type="submit" value="Import"/>
-			</form>
-		</p>
-		</div>
-)
+	}
+	</ol>
+};
 
+
+declare function show-form() as element(form) 
+{
+	<form method="get">
+		<input type="hidden" name="import" value="true"/>
+		Source dir <input type="text" name="dir" value="{$dir}" style="width:600px"/><br/>
+		API Version <input type="text" name="version" value="{$version}" style="width:50px"/><br/>
+		<input type="submit" value="Import"/>
+	</form>
+};
+
+xdmp:set-response-content-type("text/html"),
+<html>
+	<head>
+	  <title>Import API</title>
+	</head>
+	<body>
+	  <h1>Import API from raw apidocs xml</h1>
+	  {
+	  	show-form(),
+	  	if ($import) then 
+	  	  try { import() }
+	  	  catch ($e) { <pre>{xdmp:quote($e)}</pre> }
+	  	else ()
+		}
+	</body>
+</html>
 

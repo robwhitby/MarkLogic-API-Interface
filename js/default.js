@@ -4,7 +4,10 @@ Ext.onReady(function() {
 	var config = { 
 		minQueryLength: 0,
 		queryDelay: 500,
-		apiVersion: (document.location.search.length > 1)? document.location.search.substring(1) : MLAPI.versions[0]
+		uris: {
+			navigation: '/' + MLAPI.version + '/navigation',
+			functions: '/' + MLAPI.version + '/functions'
+		}
 	};
 	
 	var search = new Ext.form.FormPanel({
@@ -81,11 +84,11 @@ Ext.onReady(function() {
 		autoScroll : true,
 		lines : false,
 		loader : new Ext.tree.TreeLoader( {
-			dataUrl : '/xqy/navigation.xqy',
-			baseParams : { version: config.apiVersion },
-			baseAttrs : { leaf : true },
+			dataUrl : config.uris.navigation,
+			baseAttrs : { leaf : true, disableCaching: false },
 			preloadChildren : true,
-			requestMethod: 'GET'
+			requestMethod: 'GET',
+
 		})
 	});
 
@@ -112,8 +115,7 @@ Ext.onReady(function() {
 		store : new Ext.data.Store({
 			proxy: new Ext.data.HttpProxy(
 				new Ext.data.Connection({
-					url: '/xqy/functions.xqy',
-					extraParams : { version: config.apiVersion },
+					url: config.uris.functions,
 					disableCaching : false,
 					method : 'GET'
 				})
@@ -150,7 +152,7 @@ Ext.onReady(function() {
 					url: '/xqy/function-detail.xqy?',
 					params : {
 						nsname : record.data.name,
-						version : config.apiVersion,
+						version : MLAPI.version,
 						q : Ext.getCmp('txtSearch').getValue(),
 						n : Ext.getCmp('namesOnly').checked
 					},
@@ -211,24 +213,6 @@ Ext.onReady(function() {
 	});
 
 	search.update(Ext.getCmp('txtSearch').getValue(), true);
-	
-	//update version specific things
-	Ext.get('pageTitle').dom.innerHTML += config.apiVersion;
-	document.title += ' ' + config.apiVersion;
-	
-	if (MLAPI.versions.length > 1) {
-		var html = "";
-		for (var i=0; i<MLAPI.versions.length; i++) {
-			if (MLAPI.versions[i] != config.apiVersion) {
-				html += '<a href="/?' + MLAPI.versions[i] + '">' + MLAPI.versions[i] + '</a>';
-			}
-		}		
-		Ext.get('api-versions').update(html);
-	}
-	
-
-	var docsLink = Ext.get('docsLink').dom;
-	docsLink.href = docsLink.href.replace('VERSION', config.apiVersion);
 	
 	Ext.get('loading').remove();
 	Ext.get('loading-mask').fadeOut({remove:true});

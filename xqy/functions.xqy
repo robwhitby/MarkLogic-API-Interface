@@ -1,53 +1,64 @@
-xquery version '1.0-ml';
+xquery version "1.0-ml";
+import module namespace u = "http://www.github.com/robwhitby/ml-api/util" at "util.xqy";
+declare default function namespace "local";
+declare namespace s = "http://www.w3.org/2009/xpath-functions/analyze-string";
 
-declare function local:get-query($q as xs:string, $nameOnly as xs:boolean) as cts:query 
+declare variable $namespace := xdmp:get-request-field("ns", "");
+declare variable $q := xdmp:get-request-field("q", "");
+declare variable $query-name-only := xdmp:get-request-field("n") = "true";
+declare variable $options := ("unstemmed", "case-insensitive", "punctuation-sensitive");
+
+
+declare function search-query() as cts:query
 {
-	let $words := fn:tokenize($q, ' ')
-	return 
-		cts:or-query((
-			cts:element-attribute-value-query(xs:QName('apidoc:function'), (xs:QName('fullname'), xs:QName('name')), $q, 'exact', 16),
-			cts:element-attribute-value-query(xs:QName('apidoc:function'), xs:QName('fullname'), fn:concat('*', $q, '*'), (), 8),
-			cts:element-attribute-word-query(xs:QName('apidoc:function'), xs:QName('fullname'), $q, (), 2),
-			if ($nameOnly) then () else cts:word-query($words, (), 1)
-		))	
+	let $query-string := fn:analyze-string($q, "^([a-z]{2,10}):(.*$)")
+	let $prefix := $query-string/s:match/s:group[1]/fn:string()
+	let $name := if ($prefix) then $query-string/s:match/s:group[2]/fn:string() else $q
+	return
+		cts:and-query((	
+			if ($prefix)
+			then cts:element-attribute-range-query($u:QN-FUNCTION, $u:QN-LIB, "=", $prefix)
+			else (),
+			cts:or-query((
+				cts:element-attribute-range-query($u:QN-FUNCTION, $u:QN-LIB, "=", $name),
+				cts:element-attribute-range-query($u:QN-FUNCTION, $u:QN-NAME, "=", 
+					cts:element-attribute-value-match($u:QN-FUNCTION, $u:QN-NAME, "*" || $name || "*")
+				),
+				cts:element-attribute-word-query($u:QN-FUNCTION, $u:QN-NAME, $name, $options),
+				if ($query-name-only) then () else cts:word-query($name, $options)		
+			))
+		))
 };
 
-let $ns := xdmp:get-request-field('ns')	
-let $q := xdmp:get-request-field('q')	
-let $nameOnly := xs:boolean(xdmp:get-request-field('n') = 'true')
-let $version := xdmp:get-request-field('version')
+declare function summary($summary as element(apidoc:summary)?)
+{
+	xdmp:quote(
+    if ($q eq "" or $query-name-only) then $summary/node()
+    else cts:highlight(<span>{$summary/node()}</span>, cts:tokenize($q), <span class="hi">{$cts:text}</span>)/node()
+  )
+};
 
-let $query := local:get-query($q, $nameOnly)
 
-let $functions := 
-	if ($ns) then 
-		for $f in xdmp:directory(fn:concat('/', $version, '/'), '1')/apidoc:module[@lib=$ns]/apidoc:function
-		order by $f/@fullname
-		return $f
-	else if ($q) then
-		cts:search(
-			xdmp:directory(fn:concat('/', $version, '/'), '1')/apidoc:module/apidoc:function,
-			$query,
-			'unfiltered'
-		)
-	else
-		for $f in xdmp:directory(fn:concat('/', $version, '/'), '1')/apidoc:module/apidoc:function
-		order by $f/@fullname
-		return $f
+let $query := 
+	cts:and-query((
+		$u:VERSION-QUERY,
+		if ($namespace ne "") then cts:element-attribute-range-query($u:QN-FUNCTION, $u:QN-LIB, "=", $namespace)
+		else if ($q ne "") then search-query()
+		else ()
+	))
 
 return 
-	<functions nameOnly="{$nameOnly}">
-		{
-		for $f in $functions
-        let $summary := xdmp:quote(
-            if (fn:not($q)) then $f/apidoc:summary/node()
-            else cts:highlight(<span>{$f/apidoc:summary/node()}</span>, $query, <span class="hi">{$cts:text}</span>)/node()
-          )
+	<functions nameOnly="{$query-name-only}">
+	{
+		for $fn in cts:search(//apidoc:function, $query, "unfiltered")
+    let $summary := summary($fn/apidoc:summary)
+    let $full-name := $fn/@lib || ":" || $fn/@name
+    order by 1[$q = ($full-name, $fn/@name)], $full-name ascending
 		return 
 			<function>
-				<name>{data($f/@fullname)}</name>
+				<name>{$full-name}</name>
 				<summary>{$summary}</summary>
 			</function>
-		}
+	}
 	</functions>
 	
